@@ -1,0 +1,44 @@
+<div class="p-10">
+
+    <header class="flex justify-between items-center mb-10">
+        <h1
+        class="text-center text-indigo-500 text-3xl font-bold">
+        Toutes les tâches de la tache devant le clavier (toi si t'as pas compris GROSSE TACHE)
+        </h1>
+
+        <div class="flex gap-2">
+            <button
+            class="px-4 py-2 bg-orange-500 text-white rounded text-base cursor-pointer hover:bg-indigo-500"
+            (click)="deleteAccount()">
+            J'me tue
+            </button>
+
+            <button
+            class="px-4 py-2 bg-indigo-500 text-white rounded text-base cursor-pointer hover:bg-orange-500"
+            (click)="logout()">
+            J'me tire
+            </button>
+        </div>
+
+    </header>
+
+    <main>
+    @if (isLoggedIn()) {
+        <p>Bienvenue <span class="font-bold text-indigo-500">{{ username }} </span>!</p>
+        <button
+        class="px-4 py-2 p-3 bg-indigo-500 text-white rounded text-base cursor-pointer hover:bg-orange-500"
+        (click)="loadData()">
+        {{ data ? 'Cache moi tout ça là ptn' : 'Charge les données mon reuf' }}
+        </button>
+
+      @if (data) {
+        <pre
+        class="bg-indigo-50 p-5 rounded overflow-auto"
+        >
+            {{ data | json }}
+        </pre>
+      }
+    }
+  </main>
+
+</div>

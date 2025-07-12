@@ -1,0 +1,57 @@
+<div class="flex justify-center items-center h-screen">
+    <form (ngSubmit)="isRegisterMode() ? register() : login()" class="w-full max-w-md">
+        <h2 class="text-center mb-10 text-indigo-500 text-3xl font-bold">
+            {{ isRegisterMode() ? "Rejoins la bande des taskeurs ;) ;) ;)" : "Connecte-toi mon lapin miaouuuu" }}
+        </h2>
+        
+        @if (errorMessage()) {
+            <div class="bg-orange-100 text-orange-600 p-2.5 rounded mb-4 text-center">
+                {{ errorMessage() }}
+            </div>
+        }
+
+        @if (isRegisterMode()) {
+            <input 
+                class="w-full p-3 mb-4 border border-indigo-500 rounded focus:outline-none focus:border-orange-500"
+                type="username"
+                [(ngModel)]="username"
+                name="username"
+                placeholder="Ton petit nom"
+                required
+            >
+        }
+
+        <input 
+        class="w-full p-3 mb-4 border border-indigo-500 rounded focus:outline-none focus:border-orange-500"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Ton adresse électronique digitale sur l'internet"
+        required
+        >
+
+        <input 
+        class="w-full p-3 mb-4 border border-indigo-500 rounded focus:outline-none focus:border-orange-500"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Le message crypté que tu dois bien te rappeler attention"
+        required
+        >
+
+        <button 
+        class="w-full p-3 bg-indigo-500 text-white rounded text-base cursor-pointer hover:bg-orange-500 disabled:bg-indigo-300 disabled:cursor-not-allowed"
+        type="submit"
+        [disabled]="loading()">
+        {{ loading() ? 'Ca charge attends wsh' : (isRegisterMode() ? "C komsa ke jmapel jte jur" : "C bi1 mé log wllh") }}
+        </button>
+
+        <button
+        type="button"
+        class="mt-4 w-full text-sm text-indigo-500 hover:underline hover:text-orange-500"
+        (click)="toggleMode()">
+        {{ isRegisterMode() ? "Oh payo que tié je suis djà inscrit je veux me log cong" : "J'aimerais rejoindre cette communauté de grands bg" }}
+        </button>
+
+    </form>
+</div>
