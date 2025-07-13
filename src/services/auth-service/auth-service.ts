@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap, switchMap, mapTo, map } from 'rxjs';
+import { Observable, tap, switchMap } from 'rxjs';
 
 export interface LoginCredentials {   //Champs à remplir pour se log
   email: string
@@ -29,7 +29,6 @@ export class AuthService {
 
   //On renseigne l'API
   private apiUrl = 'https://todof.woopear.fr/api/v1/user'
-
 
   //Avec les signaux, on vérifie que le token est bien légitime
   isLoggedIn = signal(this.hasValidToken())

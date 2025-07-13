@@ -23,13 +23,14 @@
     </header>
 
     <main>
-    @if (isLoggedIn()) {
-        <p>Bienvenue <span class="font-bold text-indigo-500">{{ username }} </span>!</p>
-        <button
-        class="px-4 py-2 p-3 bg-indigo-500 text-white rounded text-base cursor-pointer hover:bg-orange-500"
-        (click)="loadData()">
-        {{ data ? 'Cache moi tout ça là ptn' : 'Charge les données mon reuf' }}
-        </button>
+      @if (isLoggedIn()) {
+        <p class="text-xl mb-10">Bienvenue 
+          <span 
+          class="font-bold text-xl text-indigo-500 hover:text-orange-500 cursor-pointer"
+          (click)="loadData()">
+            {{ username }} 
+          </span>
+        !</p>
 
       @if (data) {
         <pre
@@ -39,6 +40,27 @@
         </pre>
       }
     }
+
+    <div class="mb-6">
+      <input
+      [(ngModel)]="newTaskLabel"
+      placeholder="Nouvelle tâche"
+      class="border p-2 rounded mr-2"
+      />
+        <button
+        (click)="createTask()"
+        class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-orange-500"
+        >
+          Nouvelle tâche
+        </button>
+    </div>
+
+    <app-task
+      *ngFor="let task of tasks"
+      [task]="task"
+      (taskDeleted)="deleteTask($event)">
+    </app-task>
+
   </main>
 
 </div>
