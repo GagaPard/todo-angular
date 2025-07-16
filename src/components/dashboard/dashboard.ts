@@ -18,7 +18,7 @@ export class Dashboard implements OnInit {
   private http = inject(HttpClient)
 
   ngOnInit() {
-    this.loadData()
+    this.loadUsername()
     this.loadTasks()
   }
 
@@ -32,6 +32,15 @@ export class Dashboard implements OnInit {
 
   logout() {
     this.authService.logout()
+  }
+
+  loadUsername(){
+    this.http.get('https://todof.woopear.fr/api/v1/user/profil').subscribe({
+      next: (res:any) => {
+        this.username = res.data.username
+      },
+      error: (err) => console.error("T'as de nom toi ? T'es complètement déglingo du ciboulot", err)
+    })
   }
 
   loadData() {
@@ -81,37 +90,18 @@ export class Dashboard implements OnInit {
       next: (newTask) => {
         this.tasks.push(newTask)
         this.newTaskLabel = ''
+        this.loadTasks()
       },
       error: (err) => console.error('Bah apparemment tu vas rien faire du tout chacal hein', err)
     })
   }
 
-  updateTaskDone(id: string, done: boolean) {
-    this.taskService.updateTaskDone(id, done).subscribe({
-      next: (updatedTask) => {
-        const indexFinded = this.tasks.findIndex(task => task.id === id)
-        if (indexFinded !== -1) this.tasks[indexFinded] = updatedTask
-      },
-      error: (err) => console.error("Bah on peut pas mettre à jour si t'as fait ou pas là...", err)
-    })
-  }
-
-  updateTaskLabel(id: string, label: string) {
-    this.taskService.updateTaskLabel(id, label).subscribe({
-      next: (updatedTask) => {
-        const indexFinded = this.tasks.findIndex(task => task.id === id)
-        if (indexFinded !== -1) this.tasks[indexFinded] = updatedTask
-      },
-      error: (err) => console.error("Pourquoi tu changerais le nom en vrai ? Tu veux plus le faire ? Feignasse va", err)
-    })
+  updateTask(updatedTask: Task) {
+    const index = this.tasks.findIndex(task => task.id === updatedTask.id)
+      this.loadTasks()
   }
 
   deleteTask(id: string) {
-    this.taskService.deleteTask(id).subscribe({
-      next: () => {
-        this.tasks.filter(task => task.id !== id)
-      },
-      error: (err) => console.error("Elle m'a dit qu'elle voulait rester là", err)
-    })
+    this.tasks = this.tasks.filter(task => task.id !== id)   
   }
 }

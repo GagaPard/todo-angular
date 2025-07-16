@@ -2,21 +2,35 @@
 class="border p-4 mb-5 rounded flex items-center justify-between gap-4"
 [ngClass]="task.done ? 'bg-indigo-50' : 'bg-orange-50' ">
     <div class="flex items-center gap-3 flex-grow">
-        <input type="checkbox" [checked]="task.done" (change)="toggleDone()" />
+        <input 
+        type="checkbox"
+        [checked]="task.done"
+        (change)="toggleDone()"
+        />
     
-        <div *ngIf="!isEditing" [class.line-through]="task.done" class="text-lg">
+        <div 
+        *ngIf="!isEditing"
+        [class.line-through]="task.done"
+        class="text-lg">
             {{ task.label }}
         </div>
 
-        <input *ngIf="isEditing" [(ngModel)]="newLabel" class="border p-1 rounded w-full bg-indigo-50" />
+        <input 
+        *ngIf="isEditing"
+        [(ngModel)]="newLabel"
+        (keydown.enter)="saveEdit()"
+        class="border p-1 rounded w-full bg-indigo-50"
+        />
+
     </div>
 
     <div class="flex gap-2">
         <button 
         *ngIf="!isEditing" 
-        (click)="startEdit()" 
+        (click)="startEdit()"
         class="text-sm text-white px-2 py-1 rounded cursor-pointer bg-indigo-500"
-        [ngClass]="task.done ? 'opacity-50 pointer-events-none cursor-not-allowed' : 'hover:bg-orange-500' ">
+        [ngClass]="task.done ? 'opacity-50 pointer-events-none cursor-not-allowed' : 'hover:bg-orange-500' "
+        >
             ✏️
         </button>
         <button 

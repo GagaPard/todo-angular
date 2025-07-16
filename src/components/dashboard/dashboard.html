@@ -24,7 +24,7 @@
 
     <main>
       @if (isLoggedIn()) {
-        <p class="text-xl mb-10">Bienvenue 
+        <p class="text-xl">Bienvenue 
           <span 
           class="font-bold text-xl text-indigo-500 hover:text-orange-500 cursor-pointer"
           (click)="loadData()">
@@ -41,10 +41,11 @@
       }
     }
 
-    <div class="mb-6">
+    <div class="mb-6 mt-10">
       <input
       [(ngModel)]="newTaskLabel"
       placeholder="Nouvelle tâche"
+      (keydown.enter)="createTask()"
       class="border p-2 rounded mr-2"
       />
         <button
@@ -58,7 +59,8 @@
     <app-task
       *ngFor="let task of tasks"
       [task]="task"
-      (taskDeleted)="deleteTask($event)">
+      (taskDeleted)="deleteTask($event)"
+      (taskUpdated)="updateTask($event)">
     </app-task>
 
   </main>

@@ -11,7 +11,8 @@ import { CommonModule } from '@angular/common';
 })
 export class TaskComponent {
   @Input() task!: Task  //Reçoit les tasks du dashboard pour pouvoir les traiter ici
-  @Output() taskDeleted = new EventEmitter<string>()  //On va envoyer à dash board l'id de la task supprimé, on utilise output car c'est de l'enfant au parent
+  @Output() taskDeleted = new EventEmitter<string>()  //On va envoyer à dash board l'id de la task supprimé ou modifié, on utilise output car c'est de l'enfant au parent
+  @Output() taskUpdated = new EventEmitter<Task>()
 
   isEditing = false
   newLabel = ''
@@ -21,6 +22,7 @@ export class TaskComponent {
   toggleDone() {
     this.taskService.updateTaskDone(this.task.id, !this.task.done).subscribe((updatedTask) => {
       this.task.done = updatedTask.done
+      this.taskUpdated.emit(updatedTask) //Envoie l'ID de la tâche modifiée pour que le dashboard mette à jour
     })
   }
 
@@ -34,7 +36,8 @@ export class TaskComponent {
     this.taskService.updateTaskLabel(this.task.id, this.newLabel.trim()).subscribe((updatedTask) => {
       this.task.label = updatedTask.label
       this.isEditing = false
-    });
+      this.taskUpdated.emit(updatedTask)
+    })
   }
 
   cancelEdit() {
@@ -45,8 +48,10 @@ export class TaskComponent {
   deleteTask() {
     if (confirm(`Tu veux vraiment envoyer paître en enfer "${this.task.label}" ?`)) {
       this.taskService.deleteTask(this.task.id).subscribe(() => {
-        this.taskDeleted.emit(this.task.id) //Envoie l'ID de la tâche supprimée pour que dashboard mette à jour
+        this.taskDeleted.emit(this.task.id) //Envoie l'ID de la tâche supprimée pour que le dashboard mette à jour
       })
     }
   }
 }
+export type { Task };
+
